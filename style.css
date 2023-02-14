@@ -1,0 +1,87 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.link{
+    text-decoration: none;
+    font-size: 50px;
+    margin: 0;
+    padding: 0;
+}
+
+.Move{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.boxes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.card-title{
+    text-align: center;
+}
+
+.Cards{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 5%;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+footer{
+    margin-top: auto;
+}
+.social>a{
+    margin: 10px;
+}
+
+.cohort>h6{
+    font-size: 25px;
+}
+
+.contact{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 70px;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 767px){
+    .nav-pills{
+        display: flex;
+        flex-direction: column;
+    }
+    .logo{
+        width: 90%;
+    }
+    .boxes{
+        flex-direction: column;
+        flex-wrap:wrap ;
+        width: 90%;
+    }
+    .Cards{
+        display:flex;
+        flex-direction: column;
+    }     
+}
+@media only screen and (min-width:768px) and (max-width:1023px){
+    .boxes{
+        flex-direction: column;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+    
+}
