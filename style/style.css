@@ -34,6 +34,7 @@
     flex-direction: row;
     justify-content: space-evenly;
     margin-top: 5%;
+    flex-wrap: wrap;
 }
 
 body{
@@ -58,6 +59,9 @@ footer{
     align-items: center;
     margin-top: 70px;
 }
+.card{
+    margin: 50px;
+}
 
 @media only screen and (min-width: 320px) and (max-width: 767px){
     .nav-pills{
@@ -75,6 +79,9 @@ footer{
     .Cards{
         display:flex;
         flex-direction: column;
+    }
+    .card{
+        margin: 0;
     }     
 }
 @media only screen and (min-width:768px) and (max-width:1023px){
@@ -83,5 +90,7 @@ footer{
         flex-wrap: wrap;
         flex-direction: column;
     }
-    
+    .card{
+        margin: 10px;
+    }
 }
