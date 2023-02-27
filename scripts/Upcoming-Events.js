@@ -183,21 +183,49 @@ var data = {
 
   let tarjeta = document.getElementById("eventcards");
 
-  for (const datos of data.events) {
+
+  //version con Reflow
+  
+  // for (const datos of data.events) {
+  //   var fecha = new Date (datos.date)
+  //   var annio = fecha.getFullYear()
+  //   if (annio==2022) {
+        
+  //   tarjeta.innerHTML += `
+    
+  //     <div class="card text-end" style="width: 18rem;">
+  //       <img src="${datos.image}" class="card-img-top" alt="cinema" height="180">
+  //         <div class="card-body">
+  //           <h5 class="card-title">${datos.category}</h5>
+  //           <p class="card-text text-start">${datos.description}</p>
+  //           <p class="card-text text-start">${datos.price}$USD</p>
+  //           <a href="./Detail.html" class="btn btn-primary">See more</a>
+  //         </div>
+  //     </div> 
+  //   `
+  // }};
+
+  //version sin reflow
+
+let fragment = document.createDocumentFragment()
+for (const datos of data.events) {
     var fecha = new Date (datos.date)
     var annio = fecha.getFullYear()
     if (annio==2022) {
-        
-    tarjeta.innerHTML += `
-    
-      <div class="card text-end" style="width: 18rem;">
-        <img src="${datos.image}" class="card-img-top" alt="cinema" height="180">
-          <div class="card-body">
-            <h5 class="card-title">${datos.category}</h5>
-            <p class="card-text text-start">${datos.description}</p>
-            <p class="card-text text-start">${datos.price}$USD</p>
-            <a href="./Detail.html" class="btn btn-primary">See more</a>
-          </div>
-      </div> 
-    `
-  }};
+    let card = document.createElement("card")
+    card.innerHTML += `
+  
+    <div class="card text-end" style="width: 18rem;">
+      <img src="${datos.image}" class="card-img-top" alt="cinema" height="180">
+        <div class="card-body">
+          <h5 class="card-title">${datos.category}</h5>
+          <p class="card-text text-start">${datos.description}</p>
+          <p class="card-text text-start">${datos.price}$USD</p>
+          <a href="./Detail.html" class="btn btn-primary">See more</a>
+        </div>
+    </div> 
+  `
+    fragment.appendChild(card)
+    }}
+
+tarjeta.appendChild(fragment)

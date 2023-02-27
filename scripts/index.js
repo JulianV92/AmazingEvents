@@ -181,24 +181,35 @@ var data = {
   ],
 };
 
-/*Practica de separar fechas*/
 
-// for(let i=0 ; i<data.events.length;i++){
-//   if (data.events[i].date>="2022"){
-//     var upevent = new Date (data.events[i].date)
-//     var annioU = upevent.getFullYear()
-//     console.log(annioU);
-//   } else{
-//     var pastevent= new Date (data.events[i].date)
-//     var annioP = pastevent.getFullYear()
-//     console.log(annioP);
-//   }
-// }
 
 let tarjeta = document.getElementById("eventcards");
 
+/* Version con Reflow */
+
+// for (const datos of data.events) {
+//   tarjeta.innerHTML += `
+  
+//     <div class="card text-end" style="width: 18rem;">
+//       <img src="${datos.image}" class="card-img-top" alt="cinema" height="180">
+//         <div class="card-body">
+//           <h5 class="card-title">${datos.category}</h5>
+//           <p class="card-text text-start">${datos.description}</p>
+//           <p class="card-text text-start">${datos.price}$USD</p>
+//           <a href="./Detail.html" class="btn btn-primary">See more</a>
+//         </div>
+//     </div> 
+//   `
+// };
+
+
+
+/* Version sin reflow */
+
+let fragment = document.createDocumentFragment()
 for (const datos of data.events) {
-  tarjeta.innerHTML += `
+    let card = document.createElement("card")
+    card.innerHTML += `
   
     <div class="card text-end" style="width: 18rem;">
       <img src="${datos.image}" class="card-img-top" alt="cinema" height="180">
@@ -210,13 +221,7 @@ for (const datos of data.events) {
         </div>
     </div> 
   `
-};
+    fragment.appendChild(card)
+}
 
-
-/* intento de reflow */
-
-// for (const datos of data.events) {
-//     let div = document.createElement("div")
-//     div.className= "card"
-//     div.
-// }
+tarjeta.appendChild(fragment)
