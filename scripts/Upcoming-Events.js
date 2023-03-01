@@ -218,7 +218,7 @@ for (const datos of data.events) {
     <div class="card text-end" style="width: 18rem;">
       <img src="${datos.image}" class="card-img-top" alt="cinema" height="180">
         <div class="card-body">
-          <h5 class="card-title">${datos.category}</h5>
+          <h5 class="card-title">${datos.name}</h5>
           <p class="card-text text-start">${datos.description}</p>
           <p class="card-text text-start">${datos.price}$USD</p>
           <a href="./Detail.html" class="btn btn-primary">See more</a>

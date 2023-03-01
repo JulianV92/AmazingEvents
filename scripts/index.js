@@ -214,7 +214,7 @@ for (const datos of data.events) {
     <div class="card text-end" style="width: 18rem;">
       <img src="${datos.image}" class="card-img-top" alt="cinema" height="180">
         <div class="card-body">
-          <h5 class="card-title">${datos.category}</h5>
+          <h5 class="card-title">${datos.name}</h5>
           <p class="card-text text-start">${datos.description}</p>
           <p class="card-text text-start">${datos.price}$USD</p>
           <a href="./Detail.html" class="btn btn-primary">See more</a>
@@ -225,3 +225,38 @@ for (const datos of data.events) {
 }
 
 tarjeta.appendChild(fragment)
+
+// categoryes
+let categoria = []
+let box = ""
+data.events.forEach(item =>{
+    if(!categoria.includes(item.category)){
+    categoria.push(item.category)
+    box += `<div class="form-check form-check-inline col-5">
+    <input class="form-check-input" type="checkbox" id="inlineCheckbox" value="option">
+    <label class="form-check-label" for="inlineCheckbox">${item.category}</label>
+</div>`
+}}) 
+
+let item2 = document.getElementById("box")
+item2.innerHTML = box;
+
+
+// let item3 = document.getElementsByClassName(".boxes");
+// item3.forEach(item4 => item4.onclick = () => {
+//   let htmlresultados= "";
+//   let item5 = item4.innerText;
+//   data.events.filter(item6=>item6.item5 == item5).forEach
+//   (item6 => htmlresultados += `
+//   <div class="card text-end" style="width: 18rem;">
+//       <img src="${item6.image}" class="card-img-top" alt="cinema" height="180">
+//         <div class="card-body">
+//           <h5 class="card-title">${item6.name}</h5>
+//           <p class="card-text text-start">${item6.description}</p>
+//           <p class="card-text text-start">${item6.price}$USD</p>
+//           <a href="./Detail.html" class="btn btn-primary">See more</a>
+//         </div>
+//     </div> 
+//   `);
+//   document.getElementById("conteinercard").innerHTML= htmlresultados;
+// });
