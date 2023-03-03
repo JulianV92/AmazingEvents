@@ -21,7 +21,7 @@
 .boxes{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content:flex-start; 
     margin-top: 20px;
 }
 
@@ -81,7 +81,7 @@ footer{
         width: 90%;
     }
     .boxes{
-        flex-direction: column;
+        flex-direction: row;
         flex-wrap:wrap ;
         width: 90%;
     }
@@ -95,11 +95,19 @@ footer{
 }
 @media only screen and (min-width:768px) and (max-width:1023px){
     .boxes{
-        flex-direction: column;
+        flex-direction: row;
         flex-wrap: wrap;
-        flex-direction: column;
+        
     }
     .card{
         margin: 10px;
+    }
+}
+
+@media only screen and (min-width:1024px) and (max-width:1439px){
+    .boxes{
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
     }
 }

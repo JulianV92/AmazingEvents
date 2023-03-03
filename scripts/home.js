@@ -1,0 +1,2 @@
+crearLista(data.events,"#eventcards")
+
