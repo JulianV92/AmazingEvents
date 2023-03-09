@@ -72,6 +72,10 @@ footer{
     margin-top: 13px;
 }
 
+.filtro{
+    display: none;
+}
+
 @media only screen and (min-width: 320px) and (max-width: 767px){
     .nav-pills{
         display: flex;

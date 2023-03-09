@@ -30,7 +30,7 @@ for (const datos of arr) {
           <h5 class="card-title">${datos.name}</h5>
           <p class="card-text text-start">${datos.description}</p>
           <p class="card-text text-start">${datos.price}$USD</p>
-          <a href="./Detail.html" class="btn btn-primary">See more</a>
+          <a href="./Detail.html?id=${datos._id}" class="btn btn-primary">See more</a>
         </div>
     </div> 
   `
@@ -43,8 +43,6 @@ contenedorCard.appendChild(fragment)
 
 let checkbox = document.querySelectorAll("input[type=checkbox]")
 
-console.log(checkbox);
-
 checkbox.forEach(caja => caja.addEventListener("change", verificarSeleccion))
 
 
@@ -53,22 +51,12 @@ function verificarSeleccion(){
   let seleccionado = Array.from(checkbox).filter(caja=>caja.checked)
     if(seleccionado.length !== 0){
       NuevaCategoria = filtrarContenido(data.events,seleccionado[0].value)
-      console.log("entro al if");
-      console.log(seleccionado[0].value);
       crearLista(NuevaCategoria,"#eventcards")
     } else if(seleccionado.length==0){
-      console.log("mi array esta vacio");
       crearLista(data.events,"#eventcards");
     }
-
     
-  
-  console.log(seleccionado);
 }
-
-
-
-console.log(categoria);
 
 function filtrarContenido(arr,valor){
 
@@ -77,5 +65,24 @@ function filtrarContenido(arr,valor){
     return contenidofiltrado
 }
 
-// console.log(crearLista(NuevaCategoria,"#eventcards")); 
+// Barra de busqueda
+
+const searchInput = document.getElementById('buscador');
+const cards = document.getElementsByClassName('card');
+
+const filterCards = () => {
+  const searchValue = searchInput.value.toLowerCase();
+
+  Array.from(cards).forEach(card => {
+    const cardContent = card.textContent.toLowerCase();
+    if (cardContent.includes(searchValue)) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+};
+
+searchInput.addEventListener('input', filterCards);
+
 
