@@ -1,13 +1,22 @@
+let Urldata = "https://mindhub-xj03.onrender.com/api/amazing";
+let data = {};
+let checkboxes;
+
+async function getData() {
+  try {
+    let response = await fetch(Urldata);
+    let responseData = await response.json();
+    
+    if (Array.isArray(responseData)) {
+      data.events = responseData;
+    } else {
+      data = responseData;
+    }
+    
 const queryString = location.search
-
 const params = new URLSearchParams(queryString)
-
 const id = params.get("id")
-console.log(id);
-
 const eventos = data.events.find(info => info._id == id)
-console.log(eventos);
-
 const div = document.querySelector("#eventcards")
 div.innerHTML = `
   
@@ -27,3 +36,11 @@ div.innerHTML = `
             </div>
           </div>
 `
+
+  
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+getData();

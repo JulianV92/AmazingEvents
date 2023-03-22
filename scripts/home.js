@@ -1,2 +1,2 @@
-crearLista(data.events,"#eventcards")
+
 

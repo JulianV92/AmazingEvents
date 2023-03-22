@@ -1,88 +1,147 @@
-let currentDate = data.currentDate
-let contenedorCards = document.getElementById("eventcards");
+let Urldata = "https://mindhub-xj03.onrender.com/api/amazing";
+let data = {};
+let types = [];
+let inputBusqueda = document.querySelector("input[name=search]");
+let checkboxes;
 
-// crea boxes
-let categoria=[]
-let box = ""
-data.events.forEach(item =>{
-    if(!categoria.includes(item.category)){
-    categoria.push(item.category)
-    box += `<div class="form-check form-check-inline">
-    <input class="form-check-input" type="checkbox" id="inlineCheckbox" value="${item.category}">
-    <label class="form-check-label">${item.category}</label>
-</div>`
-}}) 
-
-let item2 = document.getElementById("box")
-item2.innerHTML = box;
-
-function crearLista(arr,contenedor){
-  let fragment = document.createDocumentFragment()
-  let contenedorCard= document.querySelector(contenedor)
-  contenedorCard.innerHTML=""
-for (const datos of arr) {
-    let card = document.createElement("card")
-    card.innerHTML += `
-  
-    <div class="card text-end" style="width: 18rem;">
-      <img src="${datos.image}" class="card-img-top" alt="${datos.category}" height="180">
-        <div class="card-body">
-          <h5 class="card-title">${datos.name}</h5>
-          <p class="card-text text-start">${datos.description}</p>
-          <p class="card-text text-start">${datos.price}$USD</p>
-          <a href="./Detail.html?id=${datos._id}" class="btn btn-primary">See more</a>
-        </div>
-    </div> 
-  `
-    fragment.appendChild(card)
-}
-contenedorCard.appendChild(fragment)
-}
-
-
-
-let checkbox = document.querySelectorAll("input[type=checkbox]")
-
-checkbox.forEach(caja => caja.addEventListener("change", verificarSeleccion))
-
-
-
-function verificarSeleccion(){
-  let seleccionado = Array.from(checkbox).filter(caja=>caja.checked)
-    if(seleccionado.length !== 0){
-      NuevaCategoria = filtrarContenido(data.events,seleccionado[0].value)
-      crearLista(NuevaCategoria,"#eventcards")
-    } else if(seleccionado.length==0){
-      crearLista(data.events,"#eventcards");
-    }
+async function getData() {
+  try {
+    let response = await fetch(Urldata);
+    let responseData = await response.json();
     
-}
-
-function filtrarContenido(arr,valor){
-
-    let contenidofiltrado = arr.filter(contenido=> contenido.category==valor)
-
-    return contenidofiltrado
-}
-
-// Barra de busqueda
-
-const searchInput = document.getElementById('buscador');
-const cards = document.getElementsByClassName('card');
-
-const filterCards = () => {
-  const searchValue = searchInput.value.toLowerCase();
-
-  Array.from(cards).forEach(card => {
-    const cardContent = card.textContent.toLowerCase();
-    if (cardContent.includes(searchValue)) {
-      card.style.display = 'block';
+    if (Array.isArray(responseData)) {
+      data.events = responseData;
     } else {
-      card.style.display = 'none';
+      data = responseData;
+    }
+    renderCards(data.events);
+    let now = new Date();
+
+    data.upcomingEvents = data.events.filter((evento) => {
+      return new Date(evento.date) > now;
+    });
+
+    data.pastEvents = data.events.filter((evento) => {
+      return new Date(evento.date) < now;
+    });
+
+   
+
+
+    types = extractCategories(data.events);
+
+    renderCheckboxes(types);
+
+    checkboxes = document.querySelectorAll("input[type=checkbox]");
+
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", () => {
+        renderSearch();
+      });
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+getData();
+
+function renderCards(eventos) {
+    let container = document.querySelector("#eventcards");
+    let htmlCards = "";
+    eventos.forEach((evento) => {
+      htmlCards += createCard(evento);
+    });
+    container.innerHTML = htmlCards;
+  }
+  
+
+function createCard(evento) {
+  return ` <div class="card text-end" style="width: 18rem;">
+    <img src="${evento.image}" class="card-img-top" alt="${
+    evento.category
+  }" height="180">
+      <div class="card-body">
+        <h5 class="card-title">${evento.name}</h5>
+        <p class="card-text text-start">${evento.description}</p>
+        <p class="card-text text-start">${evento.price}$USD</p>
+        <a href="./Detail.html?id=${evento._id}" class="btn btn-primary">See more</a>
+      </div>
+  </div>`;
+}
+
+function extractCategories(eventos) {
+  let categorias = [];
+  eventos.forEach((evento) => {
+    if (!categorias.includes(evento.category)) {
+      categorias.push(evento.category);
     }
   });
-};
 
-searchInput.addEventListener('input', filterCards);
+  return categorias;
+}
 
+function renderCheckboxes(categorias) {
+  let container = document.querySelector("#box");
+  container.innerHTML = categorias
+    .map(
+      (categoria) =>
+        `<div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox" value="${categoria}">
+        <label class="form-check-label">${categoria}</label>
+    </div>`
+    )
+    .join("");
+}
 
+inputBusqueda.addEventListener("input", () => {
+  renderSearch();
+});
+
+function getChequeados() {
+  let chequeados = [];
+  checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      chequeados.push(checkbox.value);
+    }
+  });
+  return chequeados;
+}
+
+function renderSearch() {
+  let textoBusqueda = inputBusqueda.value;
+  let tiposChequeados = getChequeados();
+  let resultados = data.events.filter((evento) => {
+    let includesTextoBusqueda = evento.name.toLowerCase().includes(textoBusqueda.toLowerCase());
+    let includesTiposChequeados = tiposChequeados.includes(evento.category);
+    return includesTextoBusqueda && (tiposChequeados.length === 0 || includesTiposChequeados);
+  });
+  renderCards(resultados);
+}
+
+function detail() {
+  const queryString = location.search
+  const params = new URLSearchParams(queryString)
+  const id = params.get("id")
+  const eventos = data.events.find(info => info._id == id)
+  const div = document.querySelector("#eventcards")
+  div.innerHTML = `
+    
+  <div class="card mb-3" style="max-width: 740px; height: 460px;">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="${eventos.image}" class="img-fluid rounded-start" alt="${eventos.category}">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">${eventos.name}</h5>
+                    <p class="card-text">${eventos.description}</p>
+                    <p class="card-text text-start">${eventos.price}$USD</p>
+                    <a href="./index.html" class="btn btn-primary">Back</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+  `
+
+}
